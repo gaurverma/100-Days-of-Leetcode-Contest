@@ -1,0 +1,39 @@
+class Solution {
+public:
+    long long countPairs(int n, vector<vector<int>>& edges) {
+        vector <long long > counts;
+        vector<vector<int>> g(n);
+        for(auto edge:edges){
+            g[edge[0]].push_back(edge[1]);
+            g[edge[1]].push_back(edge[0]);
+        }
+        vector <bool> visited(n,false);
+        for(int i=0;i<n;i++){
+            if(visited[i]==false){
+                int cn  = 0;
+                dfs(g,i,visited,cn);
+                counts.push_back(cn);
+            }
+        }
+        long long ans  = 0;
+        long long s = n;
+        for(int i=0;i<counts.size()-1;i++){
+            ans += counts[i]*(s-counts[i]);
+            s = s-counts[i];
+        }
+        return ans;
+    }
+    
+    void dfs(vector<vector<int>>&g,int s,vector <bool>& visited,int& cn){
+        if(visited[s])
+            return;
+        cn++;
+        visited[s] = true;
+        for(auto neib:g[s]){
+            if(visited[neib]==false){
+                dfs(g,neib,visited,cn);
+            }
+        }
+        return;
+    }
+};
