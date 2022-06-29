@@ -1,0 +1,47 @@
+class StockPrice {
+public:
+    priority_queue <int> maxval;
+    priority_queue <int,vector<int>, greater<int>> mnval;
+    
+    unordered_map<int,int> tp,sf;
+    int maxtime;
+    
+    StockPrice() {
+        maxtime = -1;
+    }
+    
+    void update(int timestamp, int price) {
+        if(tp.find(timestamp)!=tp.end())
+            sf[tp[timestamp]]--;
+        maxtime = max(maxtime,timestamp);
+        sf[price]++;
+        tp[timestamp] = price;
+        maxval.push(price);
+        mnval.push(price);
+    }
+    
+    int current() {
+        return tp[maxtime];
+    }
+    
+    int maximum() {
+        while(sf[maxval.top()]==0)
+            maxval.pop();
+        return maxval.top();
+    }
+    
+    int minimum() {
+         while(sf[mnval.top()]==0)
+            mnval.pop();
+        return mnval.top();
+    }
+};
+
+/**
+ * Your StockPrice object will be instantiated and called as such:
+ * StockPrice* obj = new StockPrice();
+ * obj->update(timestamp,price);
+ * int param_2 = obj->current();
+ * int param_3 = obj->maximum();
+ * int param_4 = obj->minimum();
+ */
