@@ -1,0 +1,25 @@
+class Solution {
+public:
+    long long mod = 1e9 +7;
+    vector <long long> dp;
+
+    int ans = 0;
+    int peopleAwareOfSecret(int n, int delay, int forget) {
+        dp.resize(n+1,-1);
+        helper(n,delay,forget);
+        return dp[n];
+    }
+    
+    int helper(int n, int delay, int forget){
+        if(dp[n]!=-1)
+            return dp[n];
+        dp[n] = 0;
+        if(n<=forget)
+            dp[n] = 1;
+        for(int i=delay;i<forget;i++)
+            if(n-i>0) dp[n] += helper(n-i,delay,forget);
+        dp[n] = dp[n]%mod;
+        return dp[n];
+    }
+    
+};
