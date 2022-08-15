@@ -1,1 +1,1 @@
-# 100-Days-of-Leetcode-Contest
+# 100 Leetcode-Contest
